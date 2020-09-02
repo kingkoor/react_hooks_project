@@ -44,7 +44,7 @@ const TableList = () => {
   };
 
   const renderLaborAllocation = (laborAllocation, index) => {
-    console.log("inside", laborAllocation);
+    // console.log("inside", laborAllocation);
     return (
       <tr key={index}>
         <td>{laborAllocation.project}</td>

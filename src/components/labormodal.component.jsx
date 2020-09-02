@@ -9,9 +9,50 @@ const LaborModal = () => {
   const [show, setShow] = show_l;
 
   const [checkboxes, setCheckBoxes] = useState([]);
+  const [selectedCode, setSelectedCode] = useState([]);
 
-  const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+    setSelectedCode([]);
+  };
+
+  const handleSelection = (item) => {
+    // console.log(item);
+    if (item.checked) {
+      if (!selectedCode.some((code) => code.id === item.id)) {
+        console.log("In the list");
+        setSelectedCode([...selectedCode, item]);
+      }
+    }
+    //else if removed
+    else {
+      if (selectedCode.some((code) => code.id === item.id)) {
+        const modified = selectedCode.filter((el) => {
+          return el.id !== item.id;
+        });
+        setSelectedCode(modified);
+      }
+    }
+  };
+
+  const handleAdd = () => {
+    let current_laborCodes = userHour.time_info;
+    selectedCode.forEach(function (element) {
+      // delete the checked property to match the state array format
+      delete element.checked;
+      //add default 0 as percent
+      element["percent"] = 0;
+      // add the item to the local variable array list
+      current_laborCodes = [...current_laborCodes, element];
+    });
+
+    console.log("new list", current_laborCodes);
+    setSelectedCode([]);
+    setUserHour({ time_info: current_laborCodes });
+    // update the state
+    // this.setState((prevState) => ({ userLaborAllocation: current_laborCodes }));
+    setShow(false);
+  };
 
   // component did mount
   useEffect(() => {
@@ -26,9 +67,7 @@ const LaborModal = () => {
       element.isChecked = false;
       return element;
     });
-
     setCheckBoxes(labor_code);
-
     return () => null;
   }, [userHour]);
 
@@ -47,14 +86,14 @@ const LaborModal = () => {
                   key={index}
                   type="checkbox"
                   label={item.project}
-                  // onChange={(e) =>
-                  //   handleSelection({
-                  //     id: item.id,
-                  //     project: item.project,
-                  //     hours: 0,
-                  //     checked: e.currentTarget.checked,
-                  //   })
-                  // }
+                  onChange={(e) =>
+                    handleSelection({
+                      id: item.id,
+                      project: item.project,
+                      hours: 0,
+                      checked: e.currentTarget.checked,
+                    })
+                  }
                 />
               ))}
             </FormGroup>
@@ -64,14 +103,8 @@ const LaborModal = () => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button
-            variant="primary"
-            // onClick={() => {
-            //   this.props.handleSubmit({ items: this.state.selected_codes });
-            //   handleClose;
-            // }}
-          >
-            Submit
+          <Button variant="primary" onClick={handleAdd}>
+            Add
           </Button>
         </Modal.Footer>
       </Modal>
