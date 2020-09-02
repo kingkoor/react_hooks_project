@@ -60,12 +60,18 @@ const LaborModal = () => {
 
   // component did mount
   useEffect(() => {
-    let labor_code = all_labor_code.filter(
-      (rest_labor_code) =>
-        !userHour.time_info.some(
-          (user_code) => user_code.id === rest_labor_code.id
-        )
-    );
+    let labor_code;
+    if (userHour.time_info) {
+      labor_code = all_labor_code.filter(
+        (rest_labor_code) =>
+          !userHour.time_info.some(
+            (user_code) => user_code.id === rest_labor_code.id
+          )
+      );
+    } else {
+      labor_code = all_labor_code;
+    }
+
     // adding checked element to the each available code
     labor_code = labor_code.map((element) => {
       element.isChecked = false;

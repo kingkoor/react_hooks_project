@@ -15,7 +15,8 @@ const TableList = () => {
   const delteItem = (itemId) => {
     let update_work_list = userHour.time_info.filter((el) => el.id !== itemId);
     update_work_list = calculate_percent(update_work_list);
-    setUserHour({ time_info: update_work_list });
+
+    setUserHour({ ...userHour, time_info: update_work_list });
   };
 
   const calculate_percent = (hourList) => {
@@ -63,6 +64,7 @@ const TableList = () => {
             size="4"
           /> */}
           <textarea
+            resize="none"
             defaultValue={laborAllocation.hours}
             rows="1"
             cols="5"
@@ -95,25 +97,23 @@ const TableList = () => {
     console.log("entry", userHour.entry_id);
     console.log("data", userHour);
 
-    // if (userHour.entry_id)
-    // {
+    if (userHour.entry_id) {
+      const url = `http://localhost:5000/laborInfo/${userHour.entry_id}`;
+      const time_entry = {
+        staff_id: userHour.staff_id,
+        time_info: JSON.stringify(userHour.time_info),
+      };
 
-    // const url = `http://localhost:5000/laborInfo/${userHour.entry_id}`;
-    // const time_entry = {
-    //   staff_id: userHour.staff_id,
-    //   time_info: JSON.stringify(userHour),
-    // };
-
-    //    Axios.put(url, time_entry)
-    //   .then((res) => {
-    //     //handle your login
-    //     console.log(res);
-    //   })
-    //   .catch((res) => {
-    //     console.log(res);
-    //   });
-
-    // }
+      Axios.put(url, time_entry)
+        .then((res) => {
+          //handle your login
+          setUserHour(res.data);
+          console.log(res.data);
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    }
     // else {
     //   const time_entry = {
     //     staff_id: "12341234",
@@ -170,6 +170,20 @@ const TableList = () => {
                   </Button>
                 </td>
               </tr>
+              {userHour["submitted_time"] && userHour["time_info"] !== null ? (
+                <tr>
+                  <td colSpan="4">
+                    Last Update:{" "}
+                    {moment(userHour["submitted_time"]).format(
+                      "MMMM Do YYYY, h:mm:ss a"
+                    )}
+                  </td>
+                </tr>
+              ) : (
+                <tr>
+                  <td colSpan="4">No entry made this pay period</td>
+                </tr>
+              )}
             </tfoot>
           </Table>
         </Card.Body>
