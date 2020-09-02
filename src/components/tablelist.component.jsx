@@ -3,6 +3,7 @@ import { Table, Button, Card } from "react-bootstrap";
 import moment from "moment";
 import LaborContext from "../context/laborContext";
 import LaborModal from "./labormodal.component";
+import Axios from "axios";
 
 const TableList = () => {
   // const [userHour, setUserHour] = useContext(LaborContext);
@@ -40,7 +41,8 @@ const TableList = () => {
       return el;
     });
     modified_item = calculate_percent(modified_item);
-    setUserHour({ time_info: modified_item });
+    setUserHour({ ...userHour, time_info: modified_item });
+    // setUserHour({ time_info: modified_item });
   };
 
   const renderLaborAllocation = (laborAllocation, index) => {
@@ -89,6 +91,39 @@ const TableList = () => {
     setShow(true);
   };
 
+  const handleSubmit = () => {
+    console.log("entry", userHour.entry_id);
+    console.log("data", userHour);
+
+    // if (userHour.entry_id)
+    // {
+
+    // const url = `http://localhost:5000/laborInfo/${userHour.entry_id}`;
+    // const time_entry = {
+    //   staff_id: userHour.staff_id,
+    //   time_info: JSON.stringify(userHour),
+    // };
+
+    //    Axios.put(url, time_entry)
+    //   .then((res) => {
+    //     //handle your login
+    //     console.log(res);
+    //   })
+    //   .catch((res) => {
+    //     console.log(res);
+    //   });
+
+    // }
+    // else {
+    //   const time_entry = {
+    //     staff_id: "12341234",
+    //     staff_name: "Andrew Young",
+    //     time_info: JSON.stringify(this.state.userLaborAllocation),
+    //     periodid: "3",
+    //   };
+    // }
+  };
+
   return (
     <>
       <Card>
@@ -130,7 +165,7 @@ const TableList = () => {
                   </Button>
                 </td>
                 <td colSpan="2">
-                  <Button size="lg" block>
+                  <Button size="lg" block onClick={handleSubmit}>
                     Submit
                   </Button>
                 </td>

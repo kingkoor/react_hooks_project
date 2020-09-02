@@ -48,7 +48,11 @@ const LaborModal = () => {
 
     console.log("new list", current_laborCodes);
     setSelectedCode([]);
-    setUserHour({ time_info: current_laborCodes });
+    console.log(userHour);
+
+    setUserHour({ ...userHour, time_info: current_laborCodes });
+    // setUserHour({ time_info: update_work_list });
+    // setUserHour({ time_info: current_laborCodes });
     // update the state
     // this.setState((prevState) => ({ userLaborAllocation: current_laborCodes }));
     setShow(false);
