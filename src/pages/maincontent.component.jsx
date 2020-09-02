@@ -9,7 +9,7 @@ const MainContent = () => {
   const [userHour, setUserHour] = useState({});
   const [load, setLoad] = useState(false);
   const [error, setError] = useState("");
-
+  const [show, setShow] = useState(false);
   // component did mount
   useEffect(() => {
     axios
@@ -33,7 +33,12 @@ const MainContent = () => {
         ) : (
           <Row>
             <Col md={12}>
-              <LaborContext.Provider value={[userHour, setUserHour]}>
+              <LaborContext.Provider
+                value={{
+                  hour_lab: [userHour, setUserHour],
+                  show_l: [show, setShow],
+                }}
+              >
                 <TableList />
               </LaborContext.Provider>
             </Col>
