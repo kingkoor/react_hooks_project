@@ -13,7 +13,7 @@ const MainContent = () => {
   // component did mount
   useEffect(() => {
     axios
-      .get("http://localhost:5000/laborInfo/12341234")
+      .get("http://localhost:5000/laborInfo/1266662")
       .then((res) => {
         setUserHour(res.data);
         setLoad(true);

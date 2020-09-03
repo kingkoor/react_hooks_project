@@ -113,15 +113,23 @@ const TableList = () => {
         .catch((res) => {
           console.log(res);
         });
+    } else {
+      const url = "http://localhost:5000/laborInfo";
+      const time_entry = {
+        staff_id: userHour.staff_id,
+        staff_name: "Svetlana KHan",
+        time_info: JSON.stringify(userHour.time_info),
+        periodid: userHour.periodid,
+      };
+      Axios.post(url, time_entry)
+        .then((res) => {
+          setUserHour(res.data);
+          console.log(res.data);
+        })
+        .catch((res) => {
+          console.log(res);
+        });
     }
-    // else {
-    //   const time_entry = {
-    //     staff_id: "12341234",
-    //     staff_name: "Andrew Young",
-    //     time_info: JSON.stringify(this.state.userLaborAllocation),
-    //     periodid: "3",
-    //   };
-    // }
   };
 
   return (

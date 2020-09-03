@@ -36,7 +36,12 @@ const LaborModal = () => {
   };
 
   const handleAdd = () => {
-    let current_laborCodes = userHour.time_info;
+    let current_laborCodes = [];
+
+    if (userHour.time_info) {
+      current_laborCodes = userHour.time_info;
+    }
+
     selectedCode.forEach(function (element) {
       // delete the checked property to match the state array format
       delete element.checked;
